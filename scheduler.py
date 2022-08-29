@@ -11,12 +11,12 @@ class Scheduler:
         res = []
         for project in self.projects:
             if self.is_project_doable(project, contributors):
-                res.append(res)
+                res.append(project)
         return res
 
     def is_project_doable(self, project, contributors=None):
         if not contributors:
-            free_conts = self.contributors
+            free_conts = self.contributors.copy()
         else:
             free_conts = contributors
 
@@ -44,7 +44,7 @@ class Scheduler:
         projects_df["score_rate"] = projects_df["score"] / projects_df["days"]
         projects_df["start_deadline"] = projects_df["best_before"] - projects_df["days"]
         projects_df = projects_df.sort_values(by=["start_deadline", "score_rate"], ascending=[True, False])
-        projects_df["name"].tolist()
+        return projects_df.index.to_list()
 
     def schedule(self):
         pass

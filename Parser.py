@@ -55,3 +55,15 @@ def parse(path):
         projects += [Project(project_name, number_of_days, score, best_before, roles)]
         
     return contributors, projects
+
+def out_parse(allocations,out_dir):
+    f = open(out_dir, mode='w')
+    number_of_projects = len(allocations)
+    f.write(f"{number_of_projects} \n")
+    for (proj,cont) in allocations:
+        f.write(f"{proj} \n")
+        cont_names = ' '.join(cont)
+        f.write(f"{cont_names} \n")
+
+    f.close()
+
