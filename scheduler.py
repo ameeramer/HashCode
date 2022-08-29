@@ -49,5 +49,27 @@ class Scheduler:
     def schedule(self):
         pass
 
-    def allocate(self, project, allocations):
-        pass
+    def allocate(self, project, contributors):
+        if not self.is_project_doable(project, contributors):
+            raise Exception('Project is not doable')
+
+        allocated_contributors = []
+        for skill, level in project.roles.items():
+            contributors_for_skill_ids = []
+            contributors_for_skill_levels = []
+            contributors_for_skill_number_of_skills = []
+            for cont_id, cont in enumerate(contributors):
+                if cont.skills.get(skill, -1) >= level:
+                    contributors_for_skill_ids += [cont_id]
+                    contributors_for_skill_levels += [cont.skills.get(skill)]
+                    contributors_for_skill_number_of_skills += [len(cont.skills)]
+
+            conts_df = pd.DataFrame({'cont_id': contributors_for_skill_ids,
+                                     'level': contributors_for_skill_levels,
+                                     'number_of_skills': contributors_for_skill_number_of_skills})
+
+            chosen_cont_id = conts_df.sort_values(by=['level', 'number_of_skills']).head(1)['cont_id'].item()
+            allocated_contributors += [contributors[chosen_cont_id]]
+            del contributors[chosen_cont_id]
+
+        return allocated_contributors
