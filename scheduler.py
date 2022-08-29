@@ -1,4 +1,6 @@
-import  pandas as pd
+import pandas as pd
+
+
 class Scheduler:
     def __init__(self, projects, contributors):
         self.projects = projects
@@ -29,9 +31,7 @@ class Scheduler:
                 return False
         return True
 
-
-
-    def prioritize_projects(self,projects):
+    def prioritize_projects(self, projects):
         projects_df = pd.DataFrame(columns=['name', 'days', 'score', 'best_before', 'roles'])
         for proj in projects:
             projects_df = projects_df.append({
@@ -45,5 +45,9 @@ class Scheduler:
         projects_df["start_deadline"] = projects_df["best_before"] - projects_df["days"]
         projects_df = projects_df.sort_values(by=["start_deadline", "score_rate"], ascending=[True, False])
         projects_df["name"].tolist()
+
     def schedule(self):
+        pass
+
+    def allocate(self, project, allocations):
         pass
