@@ -6,10 +6,13 @@ class Scheduler:
 
     def get_doable_tasks(self, contributors=None):
         # Iterate over tasks and checks if some people can perform the task
+        res = []
         for project in self.projects:
-            pass
+            if self.is_project_doable(project, contributors):
+                res.append(res)
+        return res
 
-    def is_project_doable(self, contributors=None):
+    def is_project_doable(self, project, contributors=None):
         if not contributors:
             free_conts = self.contributors
         else:
@@ -25,6 +28,8 @@ class Scheduler:
             if not can_perform_skill:
                 return False
         return True
+
+
 
     def prioritize_projects(self,projects):
         projects_df = pd.DataFrame(columns=['name', 'days', 'score', 'best_before', 'roles'])
